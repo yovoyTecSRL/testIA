@@ -14,7 +14,7 @@ form.addEventListener("submit", async (e) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer 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"
+        "Authorization": "Bearer "
       },
       body: JSON.stringify({
         prompt: prompt,
