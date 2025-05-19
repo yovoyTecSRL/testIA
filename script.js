@@ -1,36 +1,37 @@
-const form = document.getElementById("promptForm");
-const input = document.getElementById("promptInput");
-const loading = document.getElementById("loading");
-const image = document.getElementById("generatedImage");
+const svg = d3.select("#background");
+const width = window.innerWidth;
+const height = window.innerHeight;
+svg.attr("width", width).attr("height", height);
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const prompt = input.value;
-  loading.style.display = "block";
-  image.style.display = "none";
+const numParticles = 100;
+const particles = d3.range(numParticles).map(() => ({
+  x: Math.random() * width,
+  y: Math.random() * height,
+  r: Math.random() * 3 + 1,
+  dx: (Math.random() - 0.5) * 1,
+  dy: (Math.random() - 0.5) * 1,
+}));
 
-  try {
-    const response = await fetch("https://api.openai.com/v1/images/generations", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer TU_API_KEY_AQUI"
-      },
-      body: JSON.stringify({
-        prompt: prompt,
-        n: 1,
-        size: "512x512"
-      })
+const circles = svg.selectAll("circle")
+  .data(particles)
+  .enter()
+  .append("circle")
+  .attr("cx", d => d.x)
+  .attr("cy", d => d.y)
+  .attr("r", d => d.r)
+  .style("fill", "white")
+  .style("opacity", 0.8);
+
+d3.timer(() => {
+  circles
+    .attr("cx", d => {
+      d.x += d.dx;
+      if (d.x < 0 || d.x > width) d.dx *= -1;
+      return d.x;
+    })
+    .attr("cy", d => {
+      d.y += d.dy;
+      if (d.y < 0 || d.y > height) d.dy *= -1;
+      return d.y;
     });
-
-    const data = await response.json();
-    const imageUrl = data.data[0].url;
-    image.src = imageUrl;
-    image.style.display = "block";
-  } catch (error) {
-    alert("Error al generar la imagen");
-    console.error(error);
-  } finally {
-    loading.style.display = "none";
-  }
 });
