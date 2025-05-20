@@ -13,7 +13,7 @@ form.addEventListener("submit", async (e) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " // 👈 Cambia esto por tu API Key
+        // "Authorization": "Bearer " // 👈 Cambia esto por tu API Key
       },
       body: JSON.stringify({
         model: "gpt-4",
