@@ -13,7 +13,7 @@ form.addEventListener("submit", async (e) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer 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" // 👈 Cambia esto por tu API Key
+        "Authorization": "Bearer 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" // 👈 Cambia esto por tu API Key
       },
       body: JSON.stringify({
         model: "gpt-4",
